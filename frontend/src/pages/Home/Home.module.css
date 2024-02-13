@@ -1,0 +1,18 @@
+.wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 6rem;
+}
+.text{
+    font-size: 22px;
+    list-style: 1.6px;
+    color: #C4C5C5;
+    margin-bottom: 30px;
+}
+.signin{
+    margin-top: 20px;
+}
+.invite{
+    color: #0077ff
+}
