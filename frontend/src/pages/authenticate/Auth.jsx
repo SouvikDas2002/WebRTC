@@ -15,7 +15,6 @@ const Auth = () => {
     }
   return (
     <>
-    <div>Login</div>
     <Step onNext={onNext}/>
     </>
   )

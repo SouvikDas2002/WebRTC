@@ -1,19 +1,19 @@
 import React from 'react'
 import Card from '../../components/shared/Card/Card'
 import styles from './Home.module.css'
-import {Link,useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import Button from '../../components/shared/Button/Button'
 
 function Home() {
-  const signin={
-    color:'#0077ff',
-    fontWeight:'bold',
-    textDecoration:'none',
-    marginLeft:'10px'
-  }
+  // const signin={
+  //   color:'#0077ff',
+  //   fontWeight:'bold',
+  //   textDecoration:'none',
+  //   marginLeft:'10px'
+  // }
   const navigate=useNavigate();
   const handleRegister=(()=>{
-    navigate('/register')
+    navigate('/authenticate')
   })
   return (
     <div className={styles.wrapper}>
@@ -22,11 +22,10 @@ function Home() {
           While I wrap up the finishing touches, I am adding people
           gradulally to make sure nothing breaks.</p>
         <div>
-          <Button onclick={handleRegister} text="Get your username" logo="arrow-forward"/>
+          <Button onclick={handleRegister} text="Let's Go" logo="arrow-forward"/>
         </div>
         <div className={styles.signin}>
           <span className={styles.invite}>Have an invite text?</span>
-          <Link to='/login' style={signin}>Sign in</Link>
         </div>
       </Card>
     </div>
