@@ -1,0 +1,9 @@
+.cardWrapper{
+    composes:cardWrapper from '../../../App.module.css'
+}
+.bottompara{
+    composes:bottompara from '../identity/Identity.module.css';
+}
+.actionbtnWrap{
+    margin-top: 40px;
+}

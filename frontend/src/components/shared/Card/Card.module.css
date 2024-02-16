@@ -5,7 +5,11 @@
     background: #1D1D1D;
     padding: 30px;
     border-radius: 20px;
-    text-align: center;
+    /* text-align: center; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .headingWrapper{
     display: flex;
@@ -16,6 +20,9 @@
 .headin{
     font-size: 22px;
     font-weight: bold;
+    margin-left: 10px;
+}
+.text{
     margin-left: 10px;
 }
 

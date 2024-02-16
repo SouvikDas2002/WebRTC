@@ -16,10 +16,11 @@ function Identity({ onNext }) {
       <div className={styles.cardWrapper}>
         <div>
           <div className={styles.btnWrap}>
-            <button className={`${styles.tabbutton} ${type === 'phone' ? styles.active : ''}`} onClick={() => setType('phone')}><img src='/images/phone.png' alt='phone' /></button>
-            <button className={`${styles.tabbutton} ${type === 'email' ? styles.active : ''}`} onClick={() => setType('email')}><img src='/images/phone.png' alt='email' /></button>
+            <button className={`${styles.tabbutton} ${type === 'phone' ? styles.active : ''}`} onClick={() => setType('phone')}><img src='/images/phone-white.png' alt='phone' /></button>
+            <button className={`${styles.tabbutton} ${type === 'email' ? styles.active : ''}`} onClick={() => setType('email')}><img src='/images/mail-white.png' alt='email' /></button>
 
           </div>
+          
           <Comp onNext={onNext} />
         </div>
       </div>
