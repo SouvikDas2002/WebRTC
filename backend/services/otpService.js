@@ -1,4 +1,5 @@
 const crypto=require('crypto');
+const hashService=require('./hashService')
 const smsSid=process.env.SMS_SID;
 const smsAuthToken=process.env.SMS_AUTH;
 const twilio=require('twilio')(smsSid,smsAuthToken,{
@@ -17,7 +18,13 @@ class OtpService{
             body:`Your Dev House OTP is ${otp}`
         })
     }
-    verifyOtp(){}
+   async verifyOtp(hashedOtp,data){
+        let newHash=hashService.hashOtp(data)
+        if(newHash===hashedOtp){
+            return true;
+        }
+        return false;
+    }
 
     sendByMail(){}
 }
