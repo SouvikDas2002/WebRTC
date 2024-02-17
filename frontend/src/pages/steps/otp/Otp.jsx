@@ -5,16 +5,21 @@ import Button from '../../../components/shared/Button/Button'
 import TextInput from '../../../components/shared/TextInput/TextInput'
 import { verifyOtp } from '../../../http'
 import { useSelector } from 'react-redux' //fetch data from our redux store
+import {setAuth} from '../../../store/authSlice'
+import { useDispatch } from 'react-redux'
 
 const Otp = ({onNext}) => {
   const [otp,setOtp]=useState('')
+  const dispatch=useDispatch();
   const dataFromStore=useSelector((state)=>state.auth.otp) //dataFromStore or {phone,hash} retrive this value from slice
-  console.log(dataFromStore);
+  // console.log(dataFromStore);
 
   async function handleSubmit(){
     try{
       const res=await verifyOtp({otp,phone:dataFromStore.phone,hash:dataFromStore.hash});
       console.log(res.data);
+      dispatch(setAuth(res.data));
+      // onNext();
     }catch(err){
       console.log(err);
     }

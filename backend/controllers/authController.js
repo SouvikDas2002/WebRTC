@@ -2,6 +2,7 @@ const OtpService=require('../services/otpService')
 const hashService=require('../services/hashService');
 const userService = require('../services/userService');
 const tokenService=require('../services/tokenService');
+const UserDto=require('../dtos/userdtos');
 
 class AuthController{
    async sendOtp(req,res){
@@ -72,7 +73,8 @@ class AuthController{
             httpOnly:true,     //js cant read only server can access
         })
 
-        res.json({accessToken,user})
+        const userDto=new UserDto(user);
+        res.json({accessToken,user:userDto})
     }
 }
 

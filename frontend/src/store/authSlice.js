@@ -14,6 +14,9 @@ export const authSlice=createSlice({
     initialState,
     reducers:{
         setAuth:(state,action)=>{
+            const {user}=action.payload;
+            state.isAuth=true;
+            state.user=user;
         },
         setOtp:(state,action)=>{
             const {phone,hash} = action.payload;
