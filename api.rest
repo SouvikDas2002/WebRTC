@@ -4,3 +4,13 @@ Content-Type: application/json
 {
     "phone":"+91 98756 66104"
 }
+
+###
+POST http://localhost:5000/api/verifyOtp HTTP/1.1
+Content-Type: application/json
+
+{
+    "phone":"+91 98756 66104",
+    "otp":8174,
+    "hash":"6a399c41ed478eb19a542e6c83fc4bd958c3ca0d3c3830b2c62fecf4edf36b26.1708171932429"
+}
