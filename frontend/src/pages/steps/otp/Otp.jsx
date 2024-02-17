@@ -3,9 +3,22 @@ import Card from '../../../components/shared/Card/Card'
 import Style from './Otp.module.css'
 import Button from '../../../components/shared/Button/Button'
 import TextInput from '../../../components/shared/TextInput/TextInput'
+import { verifyOtp } from '../../../http'
+import { useSelector } from 'react-redux' //fetch data from our redux store
 
 const Otp = ({onNext}) => {
   const [otp,setOtp]=useState('')
+  const dataFromStore=useSelector((state)=>state.auth.otp) //dataFromStore or {phone,hash} retrive this value from slice
+  console.log(dataFromStore);
+
+  async function handleSubmit(){
+    try{
+      const res=await verifyOtp({otp,phone:dataFromStore.phone,hash:dataFromStore.hash});
+      console.log(res.data);
+    }catch(err){
+      console.log(err);
+    }
+  }
   return (
     <>
     <div className={Style.cardWrapper}>
@@ -13,7 +26,7 @@ const Otp = ({onNext}) => {
       <TextInput value={otp} type="number" onChange={(e) => setOtp(e.target.value)} />
       <div>
         <div className={Style.actionbtnWrap}>
-          <Button text="Next" logo="arrow-forward" onclick={onNext}/>
+          <Button text="Next" logo="arrow-forward" onclick={handleSubmit}/>
         </div>
         <p className={Style.bottompara}>
           By entering your number, you’re agreeing to our

@@ -19,10 +19,11 @@ class AuthController{
 
         // send otp
         try{
-            OtpService.sendBySms(phone,otp);
+            // OtpService.sendBySms(phone,otp);
             res.json({
                 hash:`${hashOtp}.${exp}`,
                 phone,
+                otp
             })
         }catch(err){
             console.log(err);
@@ -31,7 +32,7 @@ class AuthController{
 
         // res.json({"otp":otp, "hashOtp":hashOtp})
     }
-    verifyOtp(req,res){
+    async verifyOtp(req,res){
         const {otp,hash,phone} = req.body;
         if(!otp || !hash || !phone){
             res.status(400).json({message:"All fields must be filled out."});
@@ -51,12 +52,14 @@ class AuthController{
         let refreshToken;
 
         try{
-            user= userService.findUser({phone:phone})
+            user=await userService.findUser({phone})
             if(!user){
-                userService.createUser({phone:phone})
+               user=await userService.createUser({phone})
+               console.log(user);
             }
+            
         }catch(e){
-            console.log(err);
+            console.log(e);
             res.status(400).json({message:"DB error"});
         }
 
@@ -69,7 +72,7 @@ class AuthController{
             httpOnly:true,     //js cant read only server can access
         })
 
-        res.json({accessToken})
+        res.json({accessToken,user})
     }
 }
 
