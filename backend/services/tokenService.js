@@ -1,6 +1,7 @@
 const jwt=require('jsonwebtoken');
 const secretAccessToken=process.env.ACCESS_SECRET;
 const secretRefreshToken=process.env.REFERSH_SECRET;
+const refreshModel=require('../models/refresh_model')
 
 class TokenService{
     generateAccessToken(payload){
@@ -15,6 +16,15 @@ class TokenService{
             expiresIn:'1y'
         })
         return refreshToken;
+    }
+    async storeRefreshToken(token,userId){
+        try{
+           await refreshModel.create({
+                token,userId
+            })
+        }catch(err){
+            console.log(err.message);
+        }
     }
 }
 module.exports =new TokenService();
