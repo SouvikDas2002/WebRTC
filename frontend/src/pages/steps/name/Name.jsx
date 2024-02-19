@@ -10,6 +10,7 @@ const Name = ({ onNext }) => {
   const { name } = useSelector((state) => state.activate)
   const [fullname, setFullname] = useState(name);
   const dispatch = useDispatch()
+  
   function handleSubmit() {
     if (!fullname)
       return

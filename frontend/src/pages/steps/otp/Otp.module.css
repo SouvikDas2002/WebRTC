@@ -7,3 +7,9 @@
 .actionbtnWrap{
     margin-top: 40px;
 }
+.resend{
+    color: blue;
+    cursor: pointer;
+    margin-bottom: 5px;
+    text-decoration: underline;
+}

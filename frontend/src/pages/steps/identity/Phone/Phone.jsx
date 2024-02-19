@@ -12,14 +12,17 @@ const Phone = ({onNext}) => {
   const dispatch=useDispatch();
 
   async function handleOtp(){
+    if(number){
     const res=await sendOtp({phone:number});
     console.log(res.data);
     dispatch(setOtp({phone:res.data.phone,hash:res.data.hash})); //send to action in auth slice
-    onNext();
+    onNext()
+    }
   }
 
   return (
     <Card title="Enter Your Phone Number" icon="phone">
+      {!number?<div className={Style.validate}>Enter a valid number</div>:''}
       <TextInput type="number" value={number} onChange={(e) => setNumber(e.target.value)} />
       <div>
         <div className={Style.actionbtnWrap}>

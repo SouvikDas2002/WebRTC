@@ -13,7 +13,7 @@ class AuthController{
         //generate otp from otpservice layer
         const otp=await OtpService.generateOtp();
         // hash the otp
-        const t=1000*60*2; // 2 mins time limit for OTP verification
+        const t=1000*60*1; // 2 mins time limit for OTP verification
         const exp=Date.now()+t;
         const data=`${phone}.${otp}.${exp}`;
         const hashOtp=await hashService.hashOtp(data.toString());
