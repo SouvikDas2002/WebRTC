@@ -3,6 +3,7 @@ const hashService=require('../services/hashService');
 const userService = require('../services/userService');
 const tokenService=require('../services/tokenService');
 const UserDto=require('../dtos/userdtos');
+const refresh_model = require('../models/refresh_model');
 
 class AuthController{
    async sendOtp(req,res){
@@ -13,7 +14,7 @@ class AuthController{
         //generate otp from otpservice layer
         const otp=await OtpService.generateOtp();
         // hash the otp
-        const t=1000*60*1; // 2 mins time limit for OTP verification
+        const t=1000*60*2; // 2 mins time limit for OTP verification
         const exp=Date.now()+t;
         const data=`${phone}.${otp}.${exp}`;
         const hashOtp=await hashService.hashOtp(data.toString());
@@ -71,17 +72,62 @@ class AuthController{
         await tokenService.storeRefreshToken(refreshToken,user._id)
 
 
-        res.cookie('refreshtoken',refreshToken,{
+        res.cookie('refreshToken',refreshToken,{
             maxAge:1000*60*60*24*30,
             httpOnly:true,     //js cant read only server can access
         })
-        res.cookie('accesstoken',accessToken,{
+        res.cookie('accessToken',accessToken,{
             maxAge:1000*60*60*24*30,
             httpOnly:true,
         })
 
         const userDto=new UserDto(user);
         res.json({auth:true,user:userDto})
+    }
+
+    async refresh(req,res){
+        const {refreshToken:refreshTokenFromCookie}=req.cookies;
+        let userData;
+        try{
+            userData= await tokenService.verifyRefreshToken(refreshTokenFromCookie);
+        }catch(err){
+            return res.status(401).json({message:'invalid Token1'})
+        }
+        // console.log(userData);
+        try{
+            const token =await tokenService.findRefreshToken(userData._id,refreshTokenFromCookie)
+            if(!token){
+                return res.status(404).json({message:'Invalid token2'});
+            }
+        }catch(err){
+            return res.status(500).json({message:'Internal error'});
+        }
+        
+        const user=await userService.findUser({_id:userData._id});
+        // console.log(user);
+        if(!user){
+            return res.status(404).json({message:'No user'})
+        }
+        const refreshToken=tokenService.generateRefreshToken({_id:userData._id})
+        const accessToken=tokenService.generateAccessToken({_id:userData._id})
+
+        try{
+            await tokenService.updateRefreshToken(userData._id,refreshToken);
+        }catch(err){
+            return res.status(404).json({message:'Internal error'});
+        }
+
+        res.cookie('refreshToken',refreshToken,{
+            maxAge:1000*60*60*24*30,
+            httpOnly:true,
+        })
+        res.cookie('accessToken',accessToken,{
+            maxAge:1000*60*60*24*30,
+            httpOnly:true,
+        })
+
+        const userDto=new UserDto(user);
+        res.json({user:userDto,auth:true});
     }
 }
 

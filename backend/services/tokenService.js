@@ -7,7 +7,7 @@ class TokenService{
     generateAccessToken(payload){
         const accessToken=jwt.sign(payload,secretAccessToken,{
             
-            expiresIn:'1h'
+            expiresIn:'1m'
         })
         return accessToken;
     }
@@ -29,5 +29,14 @@ class TokenService{
     async verifyToken(token){
         return jwt.verify(token,secretAccessToken);
     }
+    async verifyRefreshToken(refreshToken){
+        return jwt.verify(refreshToken,secretRefreshToken);  
+    }
+    async findRefreshToken(userId,refreshToken){
+        return await refreshModel.findOne({userId:userId,token:refreshToken});
+    }
+    async updateRefreshToken(userId,refreshToken){
+        await refreshModel.updateOne({userId:userId},{token:refreshToken});
+   }
 }
 module.exports =new TokenService();

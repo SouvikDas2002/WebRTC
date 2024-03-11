@@ -14,4 +14,23 @@ export const sendOtp=(data)=>api.post("/api/sendOtp",data);
 export const verifyOtp=(data)=>api.post("/api/verifyOtp",data);
 export const activate=(data)=>api.post("/api/activate",data);
 
+// Interceptors
+
+api.interceptors.response.use((config)=>{
+  return config;
+},
+async (error)=>{
+  const originalReqest=error.config;
+  if(error.response.status===401 && originalReqest && !originalReqest.isRetry){
+    originalReqest.isRetry=true;
+    try{
+      await axios.get(`${process.env.REACT_APP_API_URL}/api/refresh`,{withCredentials:true});
+      return api.request(originalReqest);
+    }catch(err){
+      console.log(err);
+    }
+  }
+  throw error;
+});
+
 export default api;

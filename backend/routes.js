@@ -6,5 +6,6 @@ const authmiddleware = require('./middlewares/authmiddleware');
 otp.post('/api/sendOtp',AuthController.sendOtp)
 otp.post('/api/verifyOtp',AuthController.verifyOtp)
 otp.post('/api/activate',authmiddleware,ActivateController.activate)
+otp.get('/api/refresh',AuthController.refresh)
 
 module.exports = otp;
