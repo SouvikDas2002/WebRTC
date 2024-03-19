@@ -6,89 +6,37 @@ import Auth from "./pages/authenticate/Auth";
 import Activate from "./pages/activate/Activate";
 import Rooms from "./pages/Rooms/Rooms";
 import { useSelector } from "react-redux";
-  
+import Loader from "./components/shared/Loader/Loader";
+import {useLoadingWithRefresh} from "./Hooks/useLoading.js";
+
 function App() {
-  return (
+  const {loading}=useLoadingWithRefresh();
+  return loading?(<Loader message={"Loading, please wait..."}/>):(
     <BrowserRouter>
       <Navigation />
       <Routes>
-        <Route
-          path="/"
-          exact
-          element={
-            <GuestRoute>
-              <Home />
-            </GuestRoute>
-          }
-        />
-        <Route
-          path="/authenticate"
-          element={
-            <GuestRoute>
-              <Auth />
-            </GuestRoute>
-          }
-        />
-        <Route
-          path="/activate"
-          element={
-            <SemiProtected>
-              <Activate />
-            </SemiProtected>
-          }
-        />
-        <Route
-          path="/rooms"
-          element={
-            <Protected>
-              <Rooms />
-            </Protected>
-          }
-        />
+        <Route path="/" exact element={<GuestRoute><Home /></GuestRoute>} />
+        <Route path="/authenticate" element={<GuestRoute><Auth /></GuestRoute>} />
+        <Route path="/activate" element={<SemiProtected><Activate /></SemiProtected>} />
+        <Route path="/rooms" element={<Protected><Rooms /></Protected>} />
       </Routes>
     </BrowserRouter>
   );
 }
+
 const GuestRoute = ({ children }) => {
-  const {isAuth}=useSelector((state)=>state.auth);
+  const { isAuth } = useSelector((state) => state.auth);
   return isAuth ? <Navigate to="/rooms" /> : children;
 };
+
 const SemiProtected = ({ children }) => {
-  const {user,isAuth}=useSelector((state)=>state.auth);
-  return !isAuth ? (
-    <navigate to="/" />
-    ) : isAuth && !user.activated ? (
-      children
-      ) : (
-        <Navigate to="/rooms" />
-        );
-      };
-      const Protected = ({ children }) => {
-  const {user,isAuth}=useSelector((state)=>state.auth);
-  return !isAuth ? (
-    <navigate to="/" />
-  ) : isAuth && !user.activated ? (
-    <Navigate to="/activate" />
-  ) : (
-    children
-  );
+  const { user, isAuth } = useSelector((state) => state.auth);
+  return !isAuth ? <Navigate to="/" /> : (!user.activated ? children : <Navigate to="/rooms" />);
 };
-// const GuestRoute=({children,...rest})=>{
-//   console.log(rest);
-//   return (
-//     <Route {...rest}
-//       render={({location})=>{
-//        return isAuth?
-//         (<Navigate to={
-//           {
-//             pathname:'/rooms',
-//             state:{from:location}
-//         }
-//         }/>
-//         ):(children)
-//       }}>
-//     </Route>
-//   )
-// }
+
+const Protected = ({ children }) => {
+  const { user, isAuth } = useSelector((state) => state.auth);
+  return !isAuth ? <Navigate to="/" /> : (!user.activated ? <Navigate to="/activate" /> : children);
+};
 
 export default App;

@@ -3,7 +3,6 @@ const hashService=require('../services/hashService');
 const userService = require('../services/userService');
 const tokenService=require('../services/tokenService');
 const UserDto=require('../dtos/userdtos');
-const refresh_model = require('../models/refresh_model');
 
 class AuthController{
    async sendOtp(req,res){
@@ -128,6 +127,18 @@ class AuthController{
 
         const userDto=new UserDto(user);
         res.json({user:userDto,auth:true});
+    }
+    async logout(req,res){
+        try{
+        const {refreshToken}=req.cookies;
+        await tokenService.removeToken(refreshToken);
+
+        res.clearCookie('refreshToken');
+        res.clearCookie('accessToken');
+        res.json({user:null,auth:false});
+        }catch(err){
+            console.log(err)
+        }
     }
 }
 

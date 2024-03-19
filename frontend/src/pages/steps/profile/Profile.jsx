@@ -6,11 +6,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setAvatar } from '../../../store/activateSlice'
 import {activate} from '../../../http/index'
 import { setAuth } from '../../../store/authSlice'
+import Loader from '../../../components/shared/Loader/Loader'
 
 const Profile = ({ onNext }) => {
   const dispatch = useDispatch();
   const { name,avatar } = useSelector((state) => state.activate)
   const [image, setImage] = useState('/images/monkey-avatar.png')
+  const [loading,setLoading]=useState(false);
 
   function captureImage(e) {
     const file = e.target.files[0];
@@ -24,6 +26,7 @@ const Profile = ({ onNext }) => {
     // console.log(e.target.files[0].name);
   }
   async function handleSubmit() { 
+    setLoading(true);
     try{
       const {data}=await activate({name,avatar})
       // console.log(data);
@@ -33,7 +36,9 @@ const Profile = ({ onNext }) => {
     }catch(err){
       console.log(err);
     }
+    setLoading(false);
   }
+  if(loading) return <Loader message="Activation in progress..."/>
   return (
     <>
       <div className={Style.cardWrapper}>

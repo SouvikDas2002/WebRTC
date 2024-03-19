@@ -6,10 +6,10 @@ const Card = ({title,icon,children}) => {
     
     <div className={styles.card}>
       <div className={styles.headingWrapper}>
-        <img src={`/images/${icon}.png`} alt='logo'/>
-        <div className={styles.text}>
+        {icon && <img src={`/images/${icon}.png`} alt='logo'/>}
+        {title && <div className={styles.text}>
         <h2 className={styles.heading}>{title}</h2>
-        </div>
+        </div>}
       </div>
       {children}
     </div>
