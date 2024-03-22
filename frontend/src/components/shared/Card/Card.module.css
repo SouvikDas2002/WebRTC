@@ -10,6 +10,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border: 1px solid rgb(70, 66, 200);
 }
 .headingWrapper{
     display: flex;

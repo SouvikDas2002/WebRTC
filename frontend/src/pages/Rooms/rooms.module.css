@@ -1,0 +1,63 @@
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+.left{
+    display: flex;
+    align-items: center;
+    color: #0077ff;
+}
+.heading{
+    font-size: 20px;
+    font-weight: bold;
+}
+.searchBox{
+    background: #1d1d1d;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    min-width: 300px;
+    border-radius: 20px; 
+    border: 1px solid rgb(70, 66, 200);
+}
+.search{
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 10px;
+    color: aliceblue;
+    width: 100%;
+    letter-spacing: 1px;
+}
+.heading{
+    position: relative;
+}
+.heading::after{
+    container: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60%;
+    height: 4px;
+    background: #0077ff;
+}
+.startRoom{
+    border-radius: 20px;
+    padding: 5px 20px;
+    cursor: pointer;
+    background: #0077ff;
+    border: 1px solid rgb(70, 66, 200);
+    font-weight: 600;
+}
+.startRoom span{
+    letter-spacing: 1px;
+}
+.roomList{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 20px;
+    margin-top: 60px;
+}

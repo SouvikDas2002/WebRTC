@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Card from '../../../components/shared/Card/Card'
 import Button from '../../../components/shared/Button/Button'
 import Style from './Profile.module.css'
@@ -13,6 +13,7 @@ const Profile = ({ onNext }) => {
   const { name,avatar } = useSelector((state) => state.activate)
   const [image, setImage] = useState('/images/monkey-avatar.png')
   const [loading,setLoading]=useState(false);
+  // const [unMount,setUnMount] = useState(false);
 
   function captureImage(e) {
     const file = e.target.files[0];
@@ -32,12 +33,15 @@ const Profile = ({ onNext }) => {
       // console.log(data);
       if(data.auth){
         dispatch(setAuth(data))
-      }
+        }
+      
     }catch(err){
       console.log(err);
-    }
+    }finally{
     setLoading(false);
+    }
   }
+
   if(loading) return <Loader message="Activation in progress..."/>
   return (
     <>
