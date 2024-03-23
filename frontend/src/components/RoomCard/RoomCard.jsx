@@ -8,12 +8,12 @@ const RoomCard = ({rooms}) => {
       <div className={styles.speakers}>
       <div className={styles.avatars}>
         {rooms.speakers.map(speaker=>(
-          <img src={speaker.avatar} alt="speaker"/>
+          <img key={speaker.id} src={speaker.avatar} alt="speaker"/>
         ))}
       </div>
       <div className={styles.names}>
       {rooms.speakers.map(speaker=>(
-          <div className={styles.nameWrapper}>
+          <div key={speaker.id} className={styles.nameWrapper}>
             <span>{speaker.name}</span>
           </div>
         ))}

@@ -1,0 +1,74 @@
+.modal{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.modalBody{
+    width: 50%;
+    max-width: 500px;
+    background: #1d1d1d;
+    padding: 0 20px;
+    border-radius: 10px;
+}
+.modalBody .close{
+    width: 100%;
+    text-align: right;
+    margin-top: 6px;
+    cursor:pointer;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: rgb(209, 15, 15);
+}
+
+.modalHeader{
+    /* display: flex;
+    justify-content: space-between; */
+    padding: 0 20px;
+}
+.roomTypes{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 30px;
+    margin-bottom: 15px;
+}
+.typeBox{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #262626;
+    padding:10px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+.active{
+    color: aqua;
+}
+.modalFooter{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+}
+.modalFooter button{
+    padding: 5px 25px;
+    border-radius: 20px;
+    background: #262626;
+    color: rgb(19, 185, 27);
+    margin-top: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+.modalFooter button:hover{
+    opacity: .8;
+    transform: translateY(2px);
+}
