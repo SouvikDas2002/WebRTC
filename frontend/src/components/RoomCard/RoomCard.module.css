@@ -25,6 +25,9 @@
     top:20px;
     left: 20px;
 }
+.topic{
+    margin-bottom: 10px;
+}
 .names{
     margin-left: 100px;
 }
@@ -35,4 +38,11 @@
 }
 .peopleCount{
     text-align: right;
+    margin-top: 20px;
+}
+.singleSpeaker .avatar img{
+    position:initial;
+}
+.singleSpeaker .names{
+    margin-left: 60px;
 }

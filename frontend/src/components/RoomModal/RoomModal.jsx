@@ -3,8 +3,10 @@ import styles from './RoomModal.module.css'
 import TextInput from '../shared/TextInput/TextInput'
 import { useState } from 'react'
 import { createRoom as create } from '../../http'
+import { useNavigate } from 'react-router-dom'
 
 const RoomModal = ({ onClose }) => {
+  const navigate=useNavigate();
   const [roomType,setRoomType]=useState("Open to everyone 🪄");
   const [topic,setTopic]=useState("");
 
@@ -12,7 +14,8 @@ const RoomModal = ({ onClose }) => {
     try{
       if(!topic) return;
       const {data}=await create({topic,roomType});
-      console.log(data);
+      navigate(`/room/${data.id}`);
+      // console.log(data);
     }catch(err){
       console.log(err);
     }

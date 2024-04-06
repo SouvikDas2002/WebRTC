@@ -7,13 +7,13 @@ class TokenService{
     generateAccessToken(payload){
         const accessToken=jwt.sign(payload,secretAccessToken,{
             
-            expiresIn:'1m'
+            expiresIn:'1d'
         })
         return accessToken;
     }
     generateRefreshToken(payload){
         const refreshToken=jwt.sign(payload,secretRefreshToken,{
-            expiresIn:'1y'
+            expiresIn:'10d'
         })
         return refreshToken;
     }
