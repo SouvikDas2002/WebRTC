@@ -1,7 +1,8 @@
-import react, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef} from "react";
 import { useStateWithCallback } from "./useStateWithCallback";
 import {socketInit} from "../socket";
 import { ACTIONS } from "../action";
+import freeice from 'freeice';
 
 
 
@@ -16,7 +17,7 @@ export const useWebRtc = (roomId, user) => {
     socket.current=socketInit();
   },[]);
 
-  const addNewClients = useCallback(
+  const addNewClient = useCallback(
     (newClient, cb) => {
       const lookingFor = clients.find((client) => client.id === newClient.id);
       if (lookingFor === undefined) {
@@ -33,7 +34,7 @@ export const useWebRtc = (roomId, user) => {
       });
     };
     startCapture().then(() => {
-      addNewClients(user, () => {
+      addNewClient(user, () => {
         const localElement = audioElements.current[user.id];
         if (localElement) {
           localElement.volume = 0;
@@ -45,6 +46,45 @@ export const useWebRtc = (roomId, user) => {
       });
     });
   }, []);
+
+  useEffect(()=>{
+    const handleNewPeer = async({peerId,createOffer,user:remoteUser}) => {
+      if(peerId in connections.current){
+        return console.warn(`You are already connected with ${peerId} (${user.name}) `)
+      }
+      connections.current[peerId] = new RTCPeerConnection({
+        iceServers:freeice()
+      })
+      // handle new ice candidate
+      connections.current[peerId].onicecandidate=(e)=>{
+        socket.current.emit(ACTIONS.RELAY_ICE,{
+          peerId,icecandidate:e.candidate
+        })
+      }
+      // Handle ontrack on this connection
+      connections.current[peerId].ontrack=({
+        streams:[remoteStream]
+      })=>{
+        addNewClient(remoteUser,()=>{
+          if(audioElements.current[remoteUser.id]){
+            audioElements.current[remoteUser.id].srcObject=remoteStream;
+          }else{
+            let settled=false;
+            const interval=setInterval(()=>{
+              if(audioElements.current[remoteUser.id]){
+                audioElements.current[remoteUser.id].srcObject=remoteStream;
+                settled=true;
+              }
+              if(settled){
+                clearInterval(interval);
+              }
+            },1000)
+          }
+        })
+      }
+    }
+    socket.current.on(ACTIONS.ADD_PEER,handleNewPeer)
+  },[])
 
   const provideRef = (instance, userId) => {
     audioElements.current[userId] = instance;
