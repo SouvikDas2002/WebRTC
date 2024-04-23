@@ -21,7 +21,7 @@ export function useLoadingWithRefresh() {
                 setLoading(false);
             }
         })();
-    });
+    }, []);
 
     return { loading };
 }
