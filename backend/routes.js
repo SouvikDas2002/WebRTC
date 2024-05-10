@@ -11,5 +11,6 @@ otp.get('/api/refresh',AuthController.refresh);
 otp.post('/api/logout',authmiddleware,AuthController.logout)
 otp.post('/api/rooms',authmiddleware,roomsController.create);
 otp.get('/api/rooms',authmiddleware,roomsController.index)
+otp.get('/api/rooms/:roomId',authmiddleware,roomsController.show)
 
 module.exports = otp;

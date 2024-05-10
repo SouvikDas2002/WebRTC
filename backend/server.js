@@ -74,6 +74,25 @@ io.on('connection',(socket)=>{
             sessionDescription
         })
     })
+    // handle mute unmute
+    socket.on(ACTIONS.MUTE,({roomId,userId})=>{
+        const clients=Array.from(io.sockets.adapter.rooms.get(roomId)||[]);
+        clients.forEach(clientId=>{
+            io.to(clientId).emit(ACTIONS.MUTE,{
+                peerId:socket.id,
+                userId,
+            })
+        })
+    });
+    socket.on(ACTIONS.UN_MUTE,({roomId,userId})=>{
+        const clients=Array.from(io.sockets.adapter.rooms.get(roomId)||[]);
+        clients.forEach(clientId=>{
+            io.to(clientId).emit(ACTIONS.UN_MUTE,{
+                peerId:socket.id,
+                userId,
+            })
+        })
+    });
     //LEaving the room
     const leaveRoom=()=>{
         const {rooms}=socket;

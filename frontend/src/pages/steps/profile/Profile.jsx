@@ -8,7 +8,7 @@ import {activate} from '../../../http/index'
 import { setAuth } from '../../../store/authSlice'
 import Loader from '../../../components/shared/Loader/Loader'
 
-const Profile = ({ onNext }) => {
+  const Profile = ({ onNext }) => {
   const dispatch = useDispatch();
   const { name,avatar } = useSelector((state) => state.activate)
   const [image, setImage] = useState('/images/monkey-avatar.png')
